@@ -1,4 +1,5 @@
-export const add = <i className="fa-solid fa-plus"></i>; //icons for menus, imported from font awesome 6
+// Icons for menus, imported from font awesome 6
+export const add = <i className="fa-solid fa-plus"></i>; 
 export const home = <i className="fa-solid fa-house-chimney"></i>;
 export const list = <i className="fa-solid fa-bars-progress"></i>;
 export const check = <i className="fa-solid fa-circle-check"></i>;

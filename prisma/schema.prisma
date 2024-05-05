@@ -4,15 +4,16 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// Generator configuration for Prisma client
 generator client {
   provider = "prisma-client-js"
 }
-
+// Datasource configuration for MongoDB connection
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
+// Definition of the Task model representing tasks in the database
 model Task{
   id          String    @id @default(cuid()) @map("_id")
   title       String

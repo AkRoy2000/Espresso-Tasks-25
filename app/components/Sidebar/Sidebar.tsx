@@ -1,64 +1,73 @@
-"use client";
-import React from 'react'
-import styled from 'styled-components';
-import { useGlobalState } from '@/app/context/globalProvider';
-import menu from '@/app/utils/menu';
-import Link from 'next/link'
-import { usePathname, useRouter}  from "next/navigation";
-import { UserButton, useUser } from "@clerk/nextjs";
+'use client'
 
+// Importing necessary modules and components
+import React from 'react'; // Importing React
+import styled from 'styled-components'; // Importing styled-components for styling
+import { useGlobalState } from '@/app/context/globalProvider'; // Importing custom hook for global state management
+import menu from '@/app/utils/menu'; // Importing menu data
+import Link from 'next/link'; // Importing Link component from Next.js
+import { usePathname, useRouter }  from "next/navigation"; // Importing hooks for navigation from Next.js
+import { UserButton, useUser } from "@clerk/nextjs"; // Importing UserButton and useUser hook from Clerk
+
+// Functional component for the sidebar
 function Sidebar() {
-const { theme } = useGlobalState();
+  // Accessing global state and functions using custom hook
+  const { theme } = useGlobalState();
 
-const { user } = useUser();
+  // Accessing user data using useUser hook
+  const { user } = useUser();
 
-const{firstName, lastName} = user || {
-  firstName: "",
-  lastName:"",
+  // Destructuring first name and last name from user data
+  const { firstName, lastName } = user || {
+    firstName: "",
+    lastName: "",
+  };
+
+  // Initializing router and pathname using Next.js hooks
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Function to handle navigation item clicks
+  const handleClick = (link: string) => {
+    router.push(link);
+  };
+
+  // Rendering JSX for the component
+  return ( 
+    <SidebarStyled theme={theme}>
+      <div/>
+      <ul className="nav-items">
+        {/* Mapping over menu items to render navigation links */}
+        {menu.map((item) => {
+          const link = item.link;
+          return (
+            <li 
+              key={item.id}
+              className={`nav-item ${pathname === link ? "active" : ""}`}
+              onClick={() => {
+                handleClick(link);
+              }}
+            >
+              {item.icon}
+              <Link href={link}>{item.title}</Link>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="profile">
+        <div className="profile-overlay"></div>
+        <div className="usr-btn absolute z-20 top-0 w-full h-full">
+          <UserButton />
+        </div>
+        <h1>
+          {firstName} {lastName}
+        </h1>
+      </div>
+    </SidebarStyled>
+  );
 }
 
-
-const router = useRouter();
-const pathname = usePathname();
-const handleClick = (link: string) => {
-
-
-router.push(link);
-};
-
-return ( 
-<SidebarStyled theme={theme}>
-  <div/>
-  <ul className="nav-items">
-      {menu.map ((item) => {
-      const link = item.link;
-      return (
-      <li 
-        key={item.id}
-        className={`nav-item ${pathname === link ? "active" : ""}`}
-        onClick={() => {
-        handleClick(link);
-      }}
-      >
-        {item.icon}
-        <Link href={link}>{item.title}</Link>
-    </li>
-    );
-  })}
-  </ul>
-  <div className="profile">
-
-<div className="profile-overlay"></div>
- <div className="usr-btn absolute z-20 top-0 w-full h-full">
- <UserButton />
- </div>
- <h1>
-   {firstName} {lastName}
- </h1>
-</div>
-  </SidebarStyled>
- );
-}
+// Styled component for the sidebar
 
 const SidebarStyled = styled.nav`
   position: relative; //bg setup

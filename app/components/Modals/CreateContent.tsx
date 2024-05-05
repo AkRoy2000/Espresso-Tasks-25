@@ -1,13 +1,17 @@
-'use client'
-import { useGlobalState } from "@/app/context/globalProvider";
-import { add } from "@/app/utils/Icons";
-import axios from "axios";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
-import styled from "styled-components";
+'use client' 
 
+// Importing necessary modules and components
+import { useGlobalState } from "@/app/context/globalProvider"; // Importing custom hook for global state management
+import { add } from "@/app/utils/Icons"; // Importing an icon component
+import axios from "axios"; // Importing axios for making HTTP requests
+import React, { useState } from "react"; // Importing React and useState hook
+import toast from "react-hot-toast"; // Importing toast notification library
+import styled from "styled-components"; // Importing styled-components for styling
+
+// Functional component for creating a new content (ticket)
 function CreateContent() {
 
+  // State variables to store form input values
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [taskName, setTaskName] = useState("");
@@ -18,9 +22,12 @@ function CreateContent() {
   const [methods, setMethod] = useState(false);
   const [completed, setCompleted] = useState(false);
 
+  // Accessing global state and functions using custom hook
   const {theme, allTasks, closeModal} = useGlobalState();
 
+  // Function to handle input changes
   const handleChange = (name: string) => (e: any) => {
+    // Switching over input field names to update corresponding state variables
     switch (name) {
       case "title":
         setTitle(e.target.value);
@@ -49,14 +56,16 @@ function CreateContent() {
       case "completed":
         setCompleted(e.target.checked);
         break;
-        default:
+      default:
         break;
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    // Creating a task object with form data
     const task = {
       title,
       description,
@@ -70,8 +79,10 @@ function CreateContent() {
     };
 
     try {
+      // Making a POST request to create a new task
       const res = await axios.post("/api/tasks", task );
 
+      // Handling response
       if(res.data.error){
         toast.error;
       }
@@ -87,18 +98,21 @@ function CreateContent() {
         console.log(error);
     }
 
+    // Validation checks for required fields
     if (!title || !description || !taskName || !date) {
       return(
         toast.error("Missing required fields")
       )
     }
 
+    // Validation check for selecting at least one category
     if (!tasks && !cleaning && !waste && !methods) {
       return(
         toast.error("Please select a category")
       )
     }
 
+    // Validation check for minimum title length
     if (title.length < 3) {
       return(
         toast.error("Title must be at least 3 characters long")
@@ -106,6 +120,7 @@ function CreateContent() {
     }
   }
 
+  // Rendering JSX for the component
   return (
     <CreateContentStyled onSubmit={handleSubmit} theme={theme}>
     <h1>New Ticket</h1>
@@ -199,6 +214,7 @@ function CreateContent() {
     );
   }
 
+  // Styled component for the form
   const CreateContentStyled = styled.form`
   > h1 {
     font-size: clamp(1.2rem, 5vw, 1.6rem);
@@ -253,6 +269,7 @@ function CreateContent() {
   }
 `;
 
+// Styled component for the submit button
 const SubmitButton = styled.button`
 
   transition: all 0.20s ease-in-out;
@@ -270,8 +287,11 @@ const SubmitButton = styled.button`
     background: #18b850;
   }
 `;
+
+// Styled component for the icon button
 const ButtonIcon = styled.i`
   margin-right: 0.5rem;
 `;
 
+// Exporting the component as the default export
 export default CreateContent;

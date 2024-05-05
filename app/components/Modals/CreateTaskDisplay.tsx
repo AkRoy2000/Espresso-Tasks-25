@@ -31,11 +31,7 @@ function CreateTaskDisplay({title, tasks }: Props) {
             description={task.description}
             taskName={task.taskName}
             date={task.date}
-            isTasks={task.tasks}
-            isCleaning={task.cleaning}
             isCompleted={task.isCompleted}
-            isWaste={task.waste}
-            isMethod={task.methods}
             id={task.id}
             />
           ))}

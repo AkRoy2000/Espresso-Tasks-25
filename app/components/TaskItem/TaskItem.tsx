@@ -1,28 +1,26 @@
 "use client";
-import { useGlobalState } from '@/app/context/globalProvider';
-import { trash } from '@/app/utils/Icons';
-import React from 'react'
-import styled from 'styled-components';
-import formatDate from '@/app/utils/formatDate';
 
+// Importing necessary modules and components
+import { useGlobalState } from '@/app/context/globalProvider'; // Importing custom hook for global state management
+import { trash } from '@/app/utils/Icons'; // Importing trash icon
+import React from 'react'; // Importing React
+import styled from 'styled-components'; // Importing styled-components for styling
+import formatDate from '@/app/utils/formatDate'; // Importing utility function to format date
+
+// Interface for component props
 interface Props {
-  
-  title:       string;
+  title: string;
   description: string;
-  taskName:        string;
-  date:        string;
-  isTasks:     boolean;
-  isCleaning:  boolean;   
-  isCompleted:  boolean;
-  isWaste:     boolean;
-  isMethod:    boolean; 
-  id: String;
-
+  taskName: string;
+  date: string;
+  isCompleted: boolean;
+  id: string;
 }
 
+// Functional component for a task item
 function TaskItem({ title, description, taskName, date, isCompleted, id }: Props) {
-
-  const { theme , deleteTask, updateTask } = useGlobalState();
+  // Accessing global state and functions using custom hook
+  const { theme, deleteTask, updateTask } = useGlobalState();
 
 
   return (
