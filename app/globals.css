@@ -2,16 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/*sets body color, font color and font size*/
 body {
   background-color: #413c3c;
   font-size:  18px;
   color: #ffffff;
-
   height: 100vh;
 }
 
+/*converts calender icon to white and makes it bigger*/
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: invert(1); 
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -20,7 +21,7 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-
+/*css for loader*/
 .loader {
   width: 48px;
   height: 48px;

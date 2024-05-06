@@ -1,17 +1,17 @@
 'use client' 
-
 // Importing necessary modules and components
-import { useGlobalState } from "@/app/context/globalProvider"; // Importing custom hook for global state management
-import { add } from "@/app/utils/Icons"; // Importing an icon component
+import { useGlobalState } from "@/app/context/globalProvider";
+import { add } from "@/app/utils/Icons";
 import axios from "axios"; // Importing axios for making HTTP requests
-import React, { useState } from "react"; // Importing React and useState hook
+import React, { useState } from "react";
 import toast from "react-hot-toast"; // Importing toast notification library
 import styled from "styled-components"; // Importing styled-components for styling
+import sanitize from "sanitize-html"; // Importing sanitiz to help protect site from malicious input attacks
 
-// Functional component for creating a new content (ticket)
+// Function for creating a new ticket
 function CreateContent() {
 
-  // State variables to store form input values
+  // Variables used to store input values
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [taskName, setTaskName] = useState("");
@@ -22,12 +22,12 @@ function CreateContent() {
   const [methods, setMethod] = useState(false);
   const [completed, setCompleted] = useState(false);
 
-  // Accessing global state and functions using custom hook
+  // Accessing global state and functions
   const {theme, allTasks, closeModal} = useGlobalState();
 
   // Function to handle input changes
   const handleChange = (name: string) => (e: any) => {
-    // Switching over input field names to update corresponding state variables
+    // Switching over input field names to all users to input data into variable areas
     switch (name) {
       case "title":
         setTitle(e.target.value);
@@ -65,11 +65,47 @@ function CreateContent() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    // Validation checks for required fields
+    if (!title || !description || !taskName || !date) {
+      return(
+        toast.error("Error: Missing required fields")
+      )
+    }
+
+    // Validation check for selecting at least one category
+    if (!tasks && !cleaning && !waste && !methods) {
+      return(
+        toast.error("Error: Please select a category")
+      )
+    }
+
+    // Validation check for minimum title length
+    if (title.length < 3) {
+      return(
+        toast.error("Error: Title must be at least 3 characters long")
+      )
+    }
+
+    // Validation check for max name length
+    if (title.length > 30) {
+        return(
+          toast.error("Error: Title Cannot be over 30 Characters")
+        )
+      }
+
+    // Validation check for max name length
+    if (taskName.length > 30) {
+      return(
+        toast.error("Error: Name Cannot be over 30 Characters")
+      )
+    }
+    
+
     // Creating a task object with form data
     const task = {
-      title,
-      description,
-      taskName,
+      title: sanitize(title),
+      description: sanitize(description),
+      taskName: sanitize(taskName),
       date,
       tasks,
       cleaning,
@@ -79,7 +115,7 @@ function CreateContent() {
     };
 
     try {
-      // Making a POST request to create a new task
+      // Making a POST request to create a new task and store on server using axios
       const res = await axios.post("/api/tasks", task );
 
       // Handling response
@@ -88,42 +124,21 @@ function CreateContent() {
       }
 
       if(!res.data.error){
-      toast.success("Ticket created successfully")
+      toast.success("Ticket created successfully") // UI indication that ticket was created
       allTasks();
-      closeModal();
+      closeModal(); // Closes model used to create a ticket
       }
     
     } catch (error) {
-        toast.error("Error, unable to create ticket");
+        toast.error("Error: unable to create ticket"); // UI indication that ticket was not created
         console.log(error);
-    }
-
-    // Validation checks for required fields
-    if (!title || !description || !taskName || !date) {
-      return(
-        toast.error("Missing required fields")
-      )
-    }
-
-    // Validation check for selecting at least one category
-    if (!tasks && !cleaning && !waste && !methods) {
-      return(
-        toast.error("Please select a category")
-      )
-    }
-
-    // Validation check for minimum title length
-    if (title.length < 3) {
-      return(
-        toast.error("Title must be at least 3 characters long")
-      )
     }
   }
 
-  // Rendering JSX for the component
+  // Creates the form used to input data
   return (
     <CreateContentStyled onSubmit={handleSubmit} theme={theme}>
-    <h1>New Ticket</h1>
+    <h1>New Ticket</h1> 
     <div className="input-control">
       <label htmlFor="title">Title</label>
       <input
@@ -216,46 +231,42 @@ function CreateContent() {
 
   // Styled component for the form
   const CreateContentStyled = styled.form`
-  > h1 {
+  > h1 { //new ticket header
     font-size: clamp(1.2rem, 5vw, 1.6rem);
-    font-weight: 600;
+    font-weight: 700;
 
   }
   color: ${(props) => props.theme.colorGrey1};
 
   .input-control {
     position: relative;
-    margin: 0.6rem 0;
-    font-weight: 600;
+    margin: 0.6rem 0; // margin between each input variable
+    font-weight: 700;
 
-    @media screen and (max-width: 450px) {
-      margin: 1rem 0;
-    }
-
-    label {
-      margin-bottom: 0.4rem;
+    label { // label of input style
+      margin-bottom: 0.4rem; 
       display: inline-block;
       font-size: clamp(0.9rem, 5vw, 1.2rem);
     }
 
     input,
-    textarea {
+    textarea { //text area input style
       width: 100%;
       padding: 1.4rem;
       resize: none;
-      background-color: ${(props) => props.theme.colorGreyDark};
+      background-color: ${(props) => props.theme.colorGreyDark}; //bg color of text area
       color: ${(props) => props.theme.colorGrey2};
       border-radius: ${(props) => props.theme.borderRadius};
     }
   }
-  .toggler {
+  .toggler { //toggle button styles
     display: inline-block;
     align-items: center;
     justify-content: space-between;
 
     cursor: pointer;
 
-    label {
+    label { //label of toggler postions 
       flex: 1;
       padding-left: 2rem;
       padding-right: 2rem;
@@ -277,14 +288,14 @@ const SubmitButton = styled.button`
   padding: 0.8rem 2rem;
   font-weight: 500;
   font-size: 1.2rem;
-  background:#a100e6;
+  background:#a100e6; //before 
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
 
   &:hover {
-    background: #18b850;
+    background: #18b850; //after mouse hover
   }
 `;
 

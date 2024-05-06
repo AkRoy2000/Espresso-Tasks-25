@@ -1,6 +1,6 @@
 "use client";
 // Importing necessary modules and components
-import React, { createContext, useState, useContext } from "react"; // Importing React and hooks for creating context and managing state
+import React, { createContext, useState, useContext } from "react"; 
 import themes from "./themes"; // Importing theme configuration
 import axios from "axios"; // Importing axios for making HTTP requests
 import toast from "react-hot-toast"; // Importing toast notification library
@@ -15,8 +15,8 @@ export const GlobalProvider = ({ children }) => {
   const { user } = useUser(); // Accessing user data using useUser hook from Clerk
 
   // State variables for managing theme, loading state, modal state, and tasks
-  const [selectedTheme, setSelectedTheme] = useState(0); // State variable for selected theme
-  const [isLoading, setIsLoading] = useState(false); // State variable for loading state
+  const [selectedTheme, setSelectedTheme] = useState(0); // State variable for selected theme, only dark mode is used as light mode is not finished so toggling has not been set up
+  const [isLoading, setIsLoading] = useState(false); 
   const [modal, setModal] = useState(false); // State variable for modal state
   const [tasks, setTasks] = useState([]); // State variable for tasks
 
@@ -40,7 +40,7 @@ export const GlobalProvider = ({ children }) => {
       // Fetch tasks from server
       const res = await axios.get("/api/tasks");
 
-      // Sort tasks based on createdAt field
+      // Sort tasks based on when they were created, displaying newest ones first
       const sorted = res.data.sort((a, b) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
@@ -61,25 +61,23 @@ export const GlobalProvider = ({ children }) => {
       toast.success("Ticket Deleted"); // Show success toast message
       allTasks(); // Refresh tasks list
     } catch (error) {
-      console.log(error); // Log any errors
       toast.error("Error: Unable to delete ticket"); // Show error toast message
     }
   };
 
-  // Function to update task status
+  // Function to update task complete status
   const updateTask = async (task) => {
     try {
-      // Send put request to server to update task
+      // Send put request to server to update task complete status
       await axios.put(`/api/tasks`, task);
       toast.success("Task updated"); // Show success toast message
       allTasks(); // Refresh tasks list
     } catch (error) {
-      console.log(error); // Log any errors
-      toast.error("Something went wrong"); // Show error toast message
+      toast.error("Error: Something went wrong"); // Show error toast message
     }
   };
 
-  // Filter tasks based on completion status and categories
+  // Filter tasks based on completion status and categories, used to display tasks on pages and prevent waste and methods been shown on home screen
   const completedTasks = tasks.filter((task) => task.isCompleted === true);
   const incomplete = tasks.filter((task) => task.isTasks === true);
   const isCleaning = tasks.filter((task) => task.isCleaning === true);
@@ -120,8 +118,6 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access global state
-export const useGlobalState = () => useContext(GlobalContext);
 
-// Custom hook to access global update functions
+export const useGlobalState = () => useContext(GlobalContext);
 export const useGlobalUpdate = () => useContext(GlobalUpdateContext);

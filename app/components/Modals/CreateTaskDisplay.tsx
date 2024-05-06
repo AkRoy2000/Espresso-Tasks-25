@@ -20,13 +20,12 @@ function CreateTaskDisplay({title, tasks }: Props) {
   return(
       
       <TaskStyled theme={theme}>
-        {modal && <Modal content={<CreateContent />} />}
+        {modal && <Modal content={<CreateContent />} />}  {/* Modal for creating new task, using the information from create content */}
         <h1>{title}</h1>
         {!isLoading ? (
         <div className="tasks grid">
           {tasks.map((task) => (
-            <TaskItem 
-            key={task.id}
+            <TaskItem // Rendering the task tickets
             title={task.title}
             description={task.description}
             taskName={task.taskName}
@@ -35,13 +34,13 @@ function CreateTaskDisplay({title, tasks }: Props) {
             id={task.id}
             />
           ))}
-          <button className="create-task" onClick={openModal}>
+          <button className="create-ticket" onClick={openModal}> {/* Button to open modal for creating new task */}
             {add}
             New Ticket
           </button>
       </div>
   ) : (
-      <div className='tasks-loader w-full h-full flex items-center justify-center'>
+      <div className='tasks-loader w-full h-full flex items-center justify-center'> {/*Loader while tasks are being fetched*/}
         <span className='loader'></span> 
       </div>
   )}
@@ -61,45 +60,49 @@ const TaskStyled = styled.main`
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0.1rem;
   }
 
   .tasks {
-    margin: 2rem 0;
+    margin: 1.5rem 0.5rem //outer task margins
   }
 
   > h1 {
     font-size: clamp(1.5rem, 2vw, 2rem);
-    font-weight: 800;
+    font-weight: 700;
     position: relative;
   }
 
-  .create-task {
+  .create-ticket {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.5rem; //gap between tickets
 
-    height: ${(props) => props.theme.taskHeight};
-    color: ${(props) => props.theme.colorGrey2};
-    font-weight: 600;
-    cursor: pointer;
+    height: ${(props) => props.theme.taskHeight}; //ticket box height
+    color: ${(props) => props.theme.colorGrey2}; //box color
+    font-weight: 600; 
     border-radius: ${(props) => props.theme.borderRadius};
     border: solid ${(props) => props.theme.borderColor};
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in-out; //transition animation
 
-    i {
-      font-size: 1.5rem;
-      margin-right: 0.2rem;
+    i { //text for new ticket
+      font-size: 1.5rem; 
+      margin-right: 0.3rem;
     }
 
     &:hover {
-      background-color: ${(props) => props.theme.colorGreyHover};
-      color: ${(props) => props.theme.colorGrey1};
-      border: solid ${(props) => props.theme.colorGrey1};
+      background-color: ${(props) => props.theme.colorGreyHover}; //hover color for new ticker
+      color: ${(props) => props.theme.colorGrey1}; //text color for hover on new ticket
+      border: solid ${(props) => props.theme.colorGrey1}; //border color for hover on new ticket
       
     }
   }
+    .grid {
+      display: grid; // Setting display to grid
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); // Defining grid columns
+      gap: 0.8rem; // Gap between grid items
+  } 
 `;
 
 export default CreateTaskDisplay;

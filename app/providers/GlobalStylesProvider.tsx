@@ -18,15 +18,7 @@ const GlobalStyles = styled.div`
   padding: 1.5rem; // Padding for the entire application
   gap: 1.5rem; // Gap between elements
   display: flex; // Setting display to flex
-  height: 100%; // Setting height to 100%
-
-  // Styling for grid layout
-  .grid {
-      display: grid; // Setting display to grid
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); // Defining grid columns
-      gap: 0.5rem; // Gap between grid items
-  } 
+  height: 100%; // Setting height to 100%, will allow the task panel and sidebar to display across the full screen
 `;
 
-// Exporting the GlobalStylesProvider component as default
 export default GlobalStylesProvider;

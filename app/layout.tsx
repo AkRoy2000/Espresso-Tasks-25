@@ -37,6 +37,7 @@ export default function RootLayout({
         </head>
         <body className={openSans.className}>
           <NextTopLoader 
+            /* Include Next toploader to indicate a page is loading */
             height={4}
             color="#bb00ff"
             easing="cubic-bezier(0.53,0.21,0,1)"

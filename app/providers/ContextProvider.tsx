@@ -1,7 +1,7 @@
 "use client";
 // Importing necessary modules and components
-import React from "react"; // Importing React library
-import { GlobalProvider } from "../context/globalProvider"; // Importing GlobalProvider from custom context
+import React from "react"; 
+import { GlobalProvider } from "../context/globalProvider"; 
 import { Toaster } from "react-hot-toast"; // Importing Toast component for displaying notifications
 
 // Interface for defining Props for ContextProvider component
@@ -13,7 +13,7 @@ interface Props {
 function ContextProvider({ children }: Props) {
   const [isReady, setIsReady] = React.useState(false); // State variable to track if the component is ready
 
-  // useEffect hook to set isReady to true after a delay of 200 milliseconds
+  // useEffect hook to set isReady to true after a delay of 200 milliseconds, this gives time for everything to load properly
   React.useEffect(() => {
     setTimeout(() => {
       setIsReady(true);
@@ -33,7 +33,7 @@ function ContextProvider({ children }: Props) {
   return (
     <GlobalProvider>
       <Toaster
-        toastOptions={{
+        toastOptions={{ // Custom style settings for toast notifications
           className: "",
           style: {
             border: "2px solid rgba(249,249,249, 0.08)",
