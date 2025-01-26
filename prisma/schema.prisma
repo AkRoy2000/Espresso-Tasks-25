@@ -18,7 +18,7 @@ model Task{
   id          String    @id @default(cuid()) @map("_id")
   title       String
   taskName    String
-  description String?
+  description String? 
   date        String
   isTasks     Boolean   @default(false)
   isCleaning  Boolean   @default(false)
