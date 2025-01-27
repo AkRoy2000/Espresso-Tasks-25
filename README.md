@@ -34,3 +34,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Description
+
+This is a Next Js Web App designed to help improve task managment in a cafe. it was specificslly designed to work in a cafe i formerly worked on and therefore is designed to match the same aesthetic of the till there. futhermore its
+features have been tailered to this specific business and could do with refining to make it more genrally usable. 
+
+additional features to be added in the future:
+
+edit tasks button
+photo upload
+deadline for tasks
