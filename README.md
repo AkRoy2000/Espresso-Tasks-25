@@ -45,3 +45,5 @@ additional features to be added in the future:
 edit tasks button
 photo upload
 deadline for tasks
+
+## Some files have been removed for security 
